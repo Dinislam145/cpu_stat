@@ -30,6 +30,7 @@ void debug_cpu_stat(const struct CpuStat *stat){
   }
 
   printf("\n");
+  fflush(stdout);
 }
 
 ///
@@ -50,9 +51,13 @@ void parse_cpu_values(struct CoreStat *target, char *str){
   target->guest_nice = strtoull(strtok(NULL, " \t\n"), NULL, 10);
 }
 
-void stat_parser(const char *path){
-  struct CpuStat res;
-  init_cpu_stat(&res);
+void stat_parser(const char *path, struct CpuStat *target){
+  //struct CpuStat res;
+  //init_cpu_stat(&res);
+
+  if(target == nullptr){
+    return;
+  }
 
   FILE *file = fopen(path, "r");
   char *line = NULL;
@@ -63,14 +68,12 @@ void stat_parser(const char *path){
     if(strncmp(line, "cpu", 3) == 0){ // Только статистика ЦПУ
       char *token = strtok(line, " \t\n");
       if(strcmp(token, "cpu")){
-        res.cores_count++;
+        target->cores_count++;
       }
 
-      parse_cpu_values(&(res.cores_stat[res.cores_count]), line);
+      parse_cpu_values(&(target->cores_stat[target->cores_count]), line);
     }
   }
 
   fclose(file);
-
-  debug_cpu_stat(&res);
 }

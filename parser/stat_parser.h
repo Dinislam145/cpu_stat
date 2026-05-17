@@ -37,6 +37,6 @@ void debug_cpu_stat(const struct CpuStat *stat);
 /// \brief Вариант функции для передачи пути к любому файлу
 /// \param path - путь к файлу
 ///
-void stat_parser(const char *path);
+void stat_parser(const char *path, struct CpuStat *target);
 
 #endif // STAT_PARSER_H

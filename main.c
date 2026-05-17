@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "threads/thread_control.h"
-#include "cpu_monitor/monitor.h"
+#include "cpu_monitor/cpu_monitor.h"
 
 int main()
 {
@@ -11,7 +11,6 @@ int main()
   init_proc_stat_args(&args);
 
   struct thread_context stat_thread;
-
   init_thread_context(&stat_thread, "PROC_STAT_THREAD", &args, &proc_stat_loop);
   create_thread(&stat_thread);
 

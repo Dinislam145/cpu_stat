@@ -4,8 +4,10 @@ project(cpu_stat LANGUAGES C)
 
 add_executable(cpu_stat main.c
     parser/stat_parser.h parser/stat_parser.c
-    cpu_monitor/monitor.h cpu_monitor/monitor.c
-    threads/thread_control.h threads/thread_control.c)
+    cpu_monitor/cpu_monitor.h cpu_monitor/cpu_monitor.c
+    threads/thread_control.h threads/thread_control.c
+    network/udp_sender.h network/udp_sender.c
+    udp_monitor/udp_monitor.h udp_monitor/udp_monitor.c)
 
 include(GNUInstallDirs)
 install(TARGETS cpu_stat
