@@ -70,5 +70,7 @@ void stat_parser(const char *path){
     }
   }
 
+  fclose(file);
+
   debug_cpu_stat(&res);
 }
