@@ -7,7 +7,8 @@ add_executable(cpu_stat main.c
     cpu_monitor/cpu_monitor.h cpu_monitor/cpu_monitor.c
     threads/thread_control.h threads/thread_control.c
     network/udp_sender.h network/udp_sender.c
-    udp_monitor/udp_monitor.h udp_monitor/udp_monitor.c)
+    udp_monitor/udp_monitor.h udp_monitor/udp_monitor.c
+    network/exchange/protocols.h network/exchange/protocols.c)
 
 include(GNUInstallDirs)
 install(TARGETS cpu_stat

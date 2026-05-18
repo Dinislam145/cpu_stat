@@ -3,13 +3,14 @@
 
 struct thread_context;
 struct UdpClient;
+struct cpu_stat_protocol;
 
 struct UdpExchangeArgs{
-    char *source_buf;
+    struct cpu_stat_protocol *source_buf;
     struct UdpClient *client;
 };
 
-static inline void init_udp_client_args(struct UdpExchangeArgs *target){
+static inline void init_udp_exchange_args(struct UdpExchangeArgs *target){
     if(target == nullptr){
         return;
     }
@@ -18,6 +19,6 @@ static inline void init_udp_client_args(struct UdpExchangeArgs *target){
     target->client = nullptr;
 }
 
-void udp_exchange_args(struct thread_context *thread);
+void udp_exchange_loop(struct thread_context *thread);
 
 #endif // UDP_MONITOR_H

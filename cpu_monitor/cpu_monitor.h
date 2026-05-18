@@ -2,9 +2,10 @@
 #define CPU_MONITOR_H
 
 struct thread_context;
+struct cpu_stat_protocol;
 
 struct ProcStatArgs{
-    char *target_buff;
+    struct cpu_stat_protocol *target_buff;
 };
 
 static inline void init_proc_stat_args(struct ProcStatArgs *target){
