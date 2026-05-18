@@ -39,9 +39,9 @@ int send_msg(struct UdpClient *client, const char *msg, int msg_len){
 
   int bytes_sent = sendto(client->socket_d, msg, msg_len, 0, (struct sockaddr*)(&client->server_info), sizeof(client->server_info));
 
-  if(bytes_sent < 0){
-    close_udp_client(client);
-  }
+  //if(bytes_sent < 0){
+  //  close_udp_client(client);
+  //}
 
   return bytes_sent;
 }

@@ -10,6 +10,8 @@ int main()
 {
   printf("Hello World!\n");
 
+  bool ready_udp_send = false;
+
   struct cpu_stat_protocol protocol;
   init_cpu_stat_protocol(&protocol);
 
@@ -24,6 +26,7 @@ int main()
   proc_stat_args.target_buff = &protocol;
   proc_stat_args.mutex = &mutex;
   proc_stat_args.cond_notify = &cond_var;
+  proc_stat_args.ready_to_send = &ready_udp_send;
   init_thread_context(&stat_thread, "PROC_STAT_THREAD", &proc_stat_args, &proc_stat_loop);
   create_thread(&stat_thread);
 
@@ -39,8 +42,9 @@ int main()
   udp_exch_args.client = &udp_client;
   udp_exch_args.mutex = &mutex;
   udp_exch_args.cond_wait = &cond_var;
+  udp_exch_args.ready_to_send = &ready_udp_send;
   init_thread_context(&udp_thread, "PROC_STAT_THREAD", &udp_exch_args, &udp_exchange_loop);
-  //create_thread(&udp_thread);
+  create_thread(&udp_thread);
 
 
 

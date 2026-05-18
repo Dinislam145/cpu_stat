@@ -31,19 +31,20 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
   size_t total_size = size_cpu_stat(stat);
 
   char *msg = malloc(total_size);
+  char *fill_ptr = msg;
   if(!msg){
     return nullptr;
   }
 
   {
     uint16_t net_val = htobe16(stat->cores_count);
-    memcpy(msg, &net_val, sizeof(net_val));
-    msg += sizeof(net_val);
+    memcpy(fill_ptr, &net_val, sizeof(net_val));
+    fill_ptr += sizeof(net_val);
   }
 
   for(int i = 0; i <= stat->cores_count; i++){
-    pack_core_stat(msg, &(stat->cores_stat[i]));
-    msg += size_core_stat(nullptr);
+    pack_core_stat(fill_ptr, &(stat->cores_stat[i]));
+    fill_ptr += size_core_stat(nullptr);
   }
 
   return msg;

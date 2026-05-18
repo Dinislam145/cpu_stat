@@ -10,6 +10,7 @@ struct UdpExchangeArgs{
     struct UdpClient *client;
     void *mutex;
     void *cond_wait;
+    bool *ready_to_send;
 };
 
 static inline void init_udp_exchange_args(struct UdpExchangeArgs *target){
@@ -21,6 +22,7 @@ static inline void init_udp_exchange_args(struct UdpExchangeArgs *target){
     target->client = nullptr;
     target->mutex = nullptr;
     target->cond_wait = nullptr;
+    target->ready_to_send = nullptr;
 }
 
 void udp_exchange_loop(struct thread_context *thread);

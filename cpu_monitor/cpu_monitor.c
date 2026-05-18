@@ -46,7 +46,7 @@ void proc_stat_loop(struct thread_context *thread){
   //fill_protocol(arg->target_buff, &cpu_stat);
   pthread_mutex_unlock(mutex);
 
-  debug_cpu_stat(&cpu_stat);
+  //debug_cpu_stat(&cpu_stat);
 
   while(!atomic_load(&thread->stop)){
     init_cpu_stat(&cpu_stat);
@@ -54,10 +54,11 @@ void proc_stat_loop(struct thread_context *thread){
 
     pthread_mutex_lock(mutex);
     fill_protocol(arg->target_buff, &cpu_stat);
+    *(arg->ready_to_send) = true;
     pthread_mutex_unlock(mutex);
     pthread_cond_signal(cond_notify);
 
-    debug_cpu_stat(&cpu_stat);
+    //debug_cpu_stat(&cpu_stat);
     sleep(1);
   }
 
