@@ -12,7 +12,8 @@ void fill_protocol(struct cpu_stat_protocol *target, const struct CpuStat *sourc
   }
 
   target->cores_count = source->cores_count;
-  target->cores_stat = malloc((1 + target->cores_count) * sizeof(struct core_stat_protocol));
+  //free(target->cores_stat);
+  //target->cores_stat = malloc((1 + target->cores_count) * sizeof(struct core_stat_protocol));
 
   for(int i = 0; i <= target->cores_count; i++){
     target->cores_stat[i].user = source->cores_stat[i].user;
@@ -33,12 +34,19 @@ void proc_stat_loop(struct thread_context *thread){
 
   struct CpuStat cpu_stat;
 
+  init_cpu_stat(&cpu_stat);
+  stat_parser("/proc/stat", &cpu_stat);
+  free(arg->target_buff->cores_stat);
+  arg->target_buff->cores_stat = malloc((1 + cpu_stat.cores_count) * sizeof(struct core_stat_protocol));
+  fill_protocol(arg->target_buff, &cpu_stat);
+  debug_cpu_stat(&cpu_stat);
+
   while(!atomic_load(&thread->stop)){
+    sleep(1);
     init_cpu_stat(&cpu_stat);
     stat_parser("/proc/stat", &cpu_stat);
     fill_protocol(arg->target_buff, &cpu_stat);
     debug_cpu_stat(&cpu_stat);
-    sleep(1);
   }
 
   thread->state = FINISHED;

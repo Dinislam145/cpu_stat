@@ -5,13 +5,17 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-bool init_udp_client(struct UdpClient *target){
+bool init_udp_client(struct UdpClient *target, int port, const char *addr){
   if(target == nullptr){
       return false;
   }
 
   target->socket_d = socket(AF_INET, SOCK_DGRAM, 0);
   memset(&target->server_info, 0, sizeof(target->server_info));
+
+  target->server_info.sin_family = AF_INET;
+  target->server_info.sin_port = port;
+  target->server_info.sin_addr.s_addr = inet_addr(addr);
 
   if(target->socket_d < 0){
       return false;

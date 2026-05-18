@@ -29,6 +29,11 @@ struct cpu_stat_protocol{
     struct core_stat_protocol *cores_stat;
 };
 
+static inline void init_cpu_stat_protocol(struct cpu_stat_protocol *prot){
+    prot->cores_stat = nullptr;
+    prot->cores_count = 0;
+}
+
 static inline size_t size_cpu_stat(const struct cpu_stat_protocol *prot){
     if(!prot){
         return 0;
