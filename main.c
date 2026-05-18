@@ -36,7 +36,11 @@ int main()
   init_udp_exchange_args(&udp_exch_args);
 
   struct UdpClient udp_client;
-  bool initing_client = init_udp_client(&udp_client, 1234, "127.0.0.1");
+  bool initing_client = init_udp_client(&udp_client, 1234, "192.168.31.65");
+  if(!initing_client){
+    printf("Failed to init UDP client with target port %d and ip %s", 1234, "192.168.31.65");
+    return 1;
+  }
 
   udp_exch_args.source_buf = &protocol;
   udp_exch_args.client = &udp_client;
