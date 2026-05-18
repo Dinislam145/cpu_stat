@@ -32,21 +32,33 @@ void fill_protocol(struct cpu_stat_protocol *target, const struct CpuStat *sourc
 void proc_stat_loop(struct thread_context *thread){
   struct ProcStatArgs *arg = (struct ProcStatArgs*)(thread->arg);
 
+  pthread_mutex_t *mutex = (pthread_mutex_t*)(arg->mutex);
+  pthread_cond_t *cond_notify = (pthread_cond_t*)(arg->cond_notify);
+
   struct CpuStat cpu_stat;
 
   init_cpu_stat(&cpu_stat);
   stat_parser("/proc/stat", &cpu_stat);
+
+  pthread_mutex_lock(mutex);
   free(arg->target_buff->cores_stat);
   arg->target_buff->cores_stat = malloc((1 + cpu_stat.cores_count) * sizeof(struct core_stat_protocol));
-  fill_protocol(arg->target_buff, &cpu_stat);
+  //fill_protocol(arg->target_buff, &cpu_stat);
+  pthread_mutex_unlock(mutex);
+
   debug_cpu_stat(&cpu_stat);
 
   while(!atomic_load(&thread->stop)){
-    sleep(1);
     init_cpu_stat(&cpu_stat);
     stat_parser("/proc/stat", &cpu_stat);
+
+    pthread_mutex_lock(mutex);
     fill_protocol(arg->target_buff, &cpu_stat);
+    pthread_mutex_unlock(mutex);
+    pthread_cond_signal(cond_notify);
+
     debug_cpu_stat(&cpu_stat);
+    sleep(1);
   }
 
   thread->state = FINISHED;

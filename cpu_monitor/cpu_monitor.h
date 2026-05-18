@@ -6,6 +6,8 @@ struct cpu_stat_protocol;
 
 struct ProcStatArgs{
     struct cpu_stat_protocol *target_buff;
+    void *mutex;
+    void *cond_notify;
 };
 
 static inline void init_proc_stat_args(struct ProcStatArgs *target){
@@ -14,6 +16,8 @@ static inline void init_proc_stat_args(struct ProcStatArgs *target){
     }
 
     target->target_buff = nullptr;
+    target->mutex = nullptr;
+    target->cond_notify = nullptr;
 }
 
 void proc_stat_loop(struct thread_context *thread);

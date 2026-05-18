@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "udp_monitor.h"
 #include "threads/thread_control.h"
@@ -11,6 +12,7 @@ void udp_exchange_loop(struct thread_context *thread){
   while(!atomic_load(&thread->stop)){
     char *msg = pack_cpu_stat(arg->source_buf);
     int bytes_sent = send_msg(arg->client, msg, size_cpu_stat(arg->source_buf));
+    free(msg);
 
     printf("Sent %d bytes!\n", bytes_sent);
   }
