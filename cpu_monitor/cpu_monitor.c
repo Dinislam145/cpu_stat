@@ -34,11 +34,11 @@ void proc_stat_loop(struct thread_context *thread){
   struct CpuStat cpu_stat;
 
   while(!atomic_load(&thread->stop)){
-      init_cpu_stat(&cpu_stat);
-      stat_parser("/proc/stat", &cpu_stat);
-      fill_protocol(arg->target_buff, &cpu_stat);
-      debug_cpu_stat(&cpu_stat);
-      sleep(1);
+    init_cpu_stat(&cpu_stat);
+    stat_parser("/proc/stat", &cpu_stat);
+    fill_protocol(arg->target_buff, &cpu_stat);
+    debug_cpu_stat(&cpu_stat);
+    sleep(1);
   }
 
   thread->state = FINISHED;

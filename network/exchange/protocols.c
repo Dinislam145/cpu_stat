@@ -1,6 +1,7 @@
 #include "protocols.h"
 
 #include <endian.h>
+#include <string.h>
 #include <stdlib.h>
 
 void pack_core_stat(char *msg, const struct core_stat_protocol *stat){
@@ -34,7 +35,16 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
     return nullptr;
   }
 
-  //.....
+  {
+    uint16_t net_val = htobe16(stat->cores_count);
+    memcpy(msg, &net_val, sizeof(net_val));
+    msg += sizeof(net_val);
+  }
+
+  for(int i = 0; i <= stat->cores_count; i++){
+    pack_core_stat(msg, &(stat->cores_stat[i]));
+    msg += size_core_stat(nullptr);
+  }
 
   return msg;
 }

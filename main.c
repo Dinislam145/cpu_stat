@@ -30,6 +30,7 @@ int main()
 
 
   pthread_join(stat_thread.thread, NULL);
+  pthread_join(udp_thread.thread, NULL);
 
   return 0;
 }
