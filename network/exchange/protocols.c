@@ -29,7 +29,18 @@ void unpack_core_stat(const char *msg, struct core_stat_protocol *stat){
     return;
   }
 
+  const uint64_t *ptr = (const uint64_t*)msg;
 
+  stat->user       = be64toh(ptr[0]);
+  stat->nice       = be64toh(ptr[1]);
+  stat->system     = be64toh(ptr[2]);
+  stat->idle       = be64toh(ptr[3]);
+  stat->iowait     = be64toh(ptr[4]);
+  stat->irq        = be64toh(ptr[5]);
+  stat->softirq    = be64toh(ptr[6]);
+  stat->steal      = be64toh(ptr[7]);
+  stat->guest      = be64toh(ptr[8]);
+  stat->guest_nice = be64toh(ptr[9]);
 }
 
 char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
@@ -62,5 +73,17 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
 void unpack_cpu_stat(const char *msg, struct cpu_stat_protocol *stat){
   if(!msg || !stat){
     return;
+  }
+
+  const char *ptr = msg;
+
+  uint16_t net_val;
+  memcpy(&net_val, ptr, sizeof(net_val));
+  ptr += sizeof(net_val);
+  stat->cores_count = be16toh(net_val);
+
+  for(int i = 0; i <= stat->cores_count; i++){
+      unpack_core_stat(ptr, &(stat->cores_stat[i]));
+      ptr += size_core_stat(nullptr);
   }
 }
