@@ -21,7 +21,8 @@ static inline size_t size_core_stat(const struct core_stat_protocol *prot){
     return 10 * sizeof(uint64_t);
 }
 
-char *pack_core_stat(char *msg, const struct core_stat_protocol *stat);
+void pack_core_stat(char *msg, const struct core_stat_protocol *stat);
+void unpack_core_stat(const char *msg, struct core_stat_protocol *stat);
 
 
 struct cpu_stat_protocol{
@@ -39,9 +40,10 @@ static inline size_t size_cpu_stat(const struct cpu_stat_protocol *prot){
         return 0;
     }
 
-    return sizeof(prot->cores_count) + prot->cores_count * size_core_stat(nullptr);
+    return sizeof(prot->cores_count) + (1 + prot->cores_count) * size_core_stat(nullptr);
 }
 
 char *pack_cpu_stat(const struct cpu_stat_protocol *stat);
+void unpack_cpu_stat(const char *msg, struct cpu_stat_protocol *stat);
 
 #endif // PROTOCOLS_H

@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char *pack_core_stat(char *msg, const struct core_stat_protocol *stat){
+void pack_core_stat(char *msg, const struct core_stat_protocol *stat){
   if(!msg || !stat){
-    return nullptr;
+    return;
   }
 
   uint64_t *ptr = (uint64_t*)msg;
@@ -22,8 +22,14 @@ char *pack_core_stat(char *msg, const struct core_stat_protocol *stat){
   ptr[7] = htobe64(stat->steal);
   ptr[8] = htobe64(stat->guest);
   ptr[9] = htobe64(stat->guest_nice);
+}
 
-  return (char *)(ptr[10]);
+void unpack_core_stat(const char *msg, struct core_stat_protocol *stat){
+  if(!msg || !stat){
+    return;
+  }
+
+
 }
 
 char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
@@ -46,9 +52,15 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
   }
 
   for(int i = 0; i <= stat->cores_count; i++){
-    fill_ptr = pack_core_stat(fill_ptr, &(stat->cores_stat[i]));
-    //fill_ptr += size_core_stat(nullptr);
+    pack_core_stat(fill_ptr, &(stat->cores_stat[i]));
+    fill_ptr += size_core_stat(nullptr);
   }
 
   return msg;
+}
+
+void unpack_cpu_stat(const char *msg, struct cpu_stat_protocol *stat){
+  if(!msg || !stat){
+    return;
+  }
 }
