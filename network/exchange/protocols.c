@@ -81,6 +81,7 @@ void unpack_cpu_stat(const char *msg, struct cpu_stat_protocol *stat){
   memcpy(&net_val, ptr, sizeof(net_val));
   ptr += sizeof(net_val);
   stat->cores_count = be16toh(net_val);
+  stat->cores_stat = malloc((1 + stat->cores_count) * sizeof(struct core_stat_protocol));
 
   for(int i = 0; i <= stat->cores_count; i++){
       unpack_core_stat(ptr, &(stat->cores_stat[i]));
