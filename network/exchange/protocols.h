@@ -21,7 +21,7 @@ static inline size_t size_core_stat(const struct core_stat_protocol *prot){
     return 10 * sizeof(uint64_t);
 }
 
-void pack_core_stat(char *msg, const struct core_stat_protocol *stat);
+char *pack_core_stat(char *msg, const struct core_stat_protocol *stat);
 
 
 struct cpu_stat_protocol{

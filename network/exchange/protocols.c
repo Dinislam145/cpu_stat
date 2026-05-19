@@ -3,10 +3,11 @@
 #include <endian.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-void pack_core_stat(char *msg, const struct core_stat_protocol *stat){
+char *pack_core_stat(char *msg, const struct core_stat_protocol *stat){
   if(!msg || !stat){
-    return;
+    return nullptr;
   }
 
   uint64_t *ptr = (uint64_t*)msg;
@@ -21,6 +22,8 @@ void pack_core_stat(char *msg, const struct core_stat_protocol *stat){
   ptr[7] = htobe64(stat->steal);
   ptr[8] = htobe64(stat->guest);
   ptr[9] = htobe64(stat->guest_nice);
+
+  return (char *)(ptr[10]);
 }
 
 char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
@@ -43,8 +46,8 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
   }
 
   for(int i = 0; i <= stat->cores_count; i++){
-    pack_core_stat(fill_ptr, &(stat->cores_stat[i]));
-    fill_ptr += size_core_stat(nullptr);
+    fill_ptr = pack_core_stat(fill_ptr, &(stat->cores_stat[i]));
+    //fill_ptr += size_core_stat(nullptr);
   }
 
   return msg;

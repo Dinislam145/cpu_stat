@@ -8,7 +8,7 @@ struct UdpClient{
     struct sockaddr_in server_info;
 };
 
-bool init_udp_client(struct UdpClient *target, int port, const char *addr);
+bool init_udp_client(struct UdpClient *target, uint16_t port, const char *addr);
 void close_udp_client(struct UdpClient *target);
 
 int send_msg(struct UdpClient *client, const char *msg, int msg_len);
