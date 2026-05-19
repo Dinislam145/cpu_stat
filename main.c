@@ -6,9 +6,15 @@
 #include "udp_monitor/udp_monitor.h"
 #include "network/udp_sender.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-  printf("Hello World!\n");
+  char *ip_input = nullptr;
+  if(argc == 2){
+    ip_input = argv[1];
+  }
+  else{
+    ip_input = "127.0.0.1";
+  }
 
   bool ready_udp_send = false;
 
@@ -36,11 +42,15 @@ int main()
   init_udp_exchange_args(&udp_exch_args);
 
   struct UdpClient udp_client;
-  bool initing_client = init_udp_client(&udp_client, 1234, "192.168.31.65");
+  bool initing_client = init_udp_client(&udp_client, 1234, ip_input);
   if(!initing_client){
-    printf("Failed to init UDP client with target port %d and ip %s", 1234, "192.168.31.65");
+    printf("Failed to init UDP client with target port %d and ip %s", 1234, ip_input);
     return 1;
   }
+  else{
+    printf("Inited UDP client with target port %d and ip %s", 1234, ip_input);
+  }
+  fflush(stdout);
 
   udp_exch_args.source_buf = &protocol;
   udp_exch_args.client = &udp_client;

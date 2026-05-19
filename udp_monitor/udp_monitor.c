@@ -16,8 +16,6 @@ void udp_exchange_loop(struct thread_context *thread){
   while(!atomic_load(&thread->stop)){
     pthread_mutex_lock(mutex);
     while(*(arg->ready_to_send) != true){
-      printf("Waiting!\n");
-      //fflush(stdout);
       pthread_cond_wait(cond_wait, mutex);
     }
     free(msg);
@@ -25,9 +23,6 @@ void udp_exchange_loop(struct thread_context *thread){
     int bytes_sent = send_msg(arg->client, msg, size_cpu_stat(arg->source_buf));
     *(arg->ready_to_send) = false;
     pthread_mutex_unlock(mutex);
-
-    printf("Sent %d bytes!\n", bytes_sent);
-    fflush(stdout);
   }
 
   thread->state = FINISHED;
