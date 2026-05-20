@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 bool init_udp_client(struct UdpClient *target, uint16_t port, const char *addr){
-  if(target == nullptr){
+  if(target == NULL){
       return false;
   }
 
@@ -25,7 +25,7 @@ bool init_udp_client(struct UdpClient *target, uint16_t port, const char *addr){
 }
 
 void close_udp_client(struct UdpClient *target){
-  if(target == nullptr){
+  if(target == NULL){
       return;
   }
 
@@ -33,7 +33,7 @@ void close_udp_client(struct UdpClient *target){
 }
 
 int send_msg(struct UdpClient *client, const char *msg, int msg_len){
-  if(client == nullptr){
+  if(client == NULL){
       return -1;
   }
 

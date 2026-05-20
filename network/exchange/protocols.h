@@ -31,7 +31,7 @@ struct cpu_stat_protocol{
 };
 
 static inline void init_cpu_stat_protocol(struct cpu_stat_protocol *prot){
-    prot->cores_stat = nullptr;
+    prot->cores_stat = NULL;
     prot->cores_count = 0;
 }
 
@@ -40,7 +40,7 @@ static inline size_t size_cpu_stat(const struct cpu_stat_protocol *prot){
         return 0;
     }
 
-    return sizeof(prot->cores_count) + (1 + prot->cores_count) * size_core_stat(nullptr);
+    return sizeof(prot->cores_count) + (1 + prot->cores_count) * size_core_stat(NULL);
 }
 
 char *pack_cpu_stat(const struct cpu_stat_protocol *stat);

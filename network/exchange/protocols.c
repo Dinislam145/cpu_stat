@@ -45,7 +45,7 @@ void unpack_core_stat(const char *msg, struct core_stat_protocol *stat){
 
 char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
   if(!stat){
-    return nullptr;
+    return NULL;
   }
 
   size_t total_size = size_cpu_stat(stat);
@@ -53,7 +53,7 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
   char *msg = malloc(total_size);
   char *fill_ptr = msg;
   if(!msg){
-    return nullptr;
+    return NULL;
   }
 
   {
@@ -64,7 +64,7 @@ char *pack_cpu_stat(const struct cpu_stat_protocol *stat){
 
   for(int i = 0; i <= stat->cores_count; i++){
     pack_core_stat(fill_ptr, &(stat->cores_stat[i]));
-    fill_ptr += size_core_stat(nullptr);
+    fill_ptr += size_core_stat(NULL);
   }
 
   return msg;
@@ -86,6 +86,6 @@ void unpack_cpu_stat(const char *msg, struct cpu_stat_protocol *stat){
 
   for(int i = 0; i <= stat->cores_count; i++){
       unpack_core_stat(ptr, &(stat->cores_stat[i]));
-      ptr += size_core_stat(nullptr);
+      ptr += size_core_stat(NULL);
   }
 }

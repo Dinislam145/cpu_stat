@@ -12,14 +12,14 @@ struct ProcStatArgs{
 };
 
 static inline void init_proc_stat_args(struct ProcStatArgs *target){
-    if(target == nullptr){
+    if(target == NULL){
         return;
     }
 
-    target->target_buff = nullptr;
-    target->mutex = nullptr;
-    target->cond_notify = nullptr;
-    target->ready_to_send = nullptr;
+    target->target_buff = NULL;
+    target->mutex = NULL;
+    target->cond_notify = NULL;
+    target->ready_to_send = NULL;
 }
 
 void proc_stat_loop(struct thread_context *thread);

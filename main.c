@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-  char *ip_input = nullptr;
+  char *ip_input = NULL;
   if(argc == 2){
     ip_input = argv[1];
   }

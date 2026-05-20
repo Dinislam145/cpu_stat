@@ -14,15 +14,15 @@ struct UdpExchangeArgs{
 };
 
 static inline void init_udp_exchange_args(struct UdpExchangeArgs *target){
-    if(target == nullptr){
+    if(target == NULL){
         return;
     }
 
-    target->source_buf = nullptr;
-    target->client = nullptr;
-    target->mutex = nullptr;
-    target->cond_wait = nullptr;
-    target->ready_to_send = nullptr;
+    target->source_buf = NULL;
+    target->client = NULL;
+    target->mutex = NULL;
+    target->cond_wait = NULL;
+    target->ready_to_send = NULL;
 }
 
 void udp_exchange_loop(struct thread_context *thread);

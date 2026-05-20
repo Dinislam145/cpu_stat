@@ -55,7 +55,7 @@ void stat_parser(const char *path, struct CpuStat *target){
   //struct CpuStat res;
   //init_cpu_stat(&res);
 
-  if(target == nullptr){
+  if(target == NULL){
     return;
   }
 
